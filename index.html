@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Amal</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+:root{
+  --bg1:#0f0c29;
+  --bg2:#302b63;
+  --bg3:#24243e;
+  --glass:rgba(255,255,255,0.08);
+  --soft:rgba(255,255,255,0.65);
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  height:100vh;
+  background:linear-gradient(160deg,var(--bg1),var(--bg2),var(--bg3));
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+  color:white;
+}
+
+.card{
+  width:94%;
+  max-width:460px;
+  background:var(--glass);
+  backdrop-filter:blur(22px);
+  border-radius:28px;
+  padding:34px;
+  box-shadow:0 40px 90px rgba(0,0,0,.5);
+  animation:rise 1.6s ease;
+  text-align:center;
+}
+
+@keyframes rise{
+  from{opacity:0;transform:translateY(40px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* PHOTO */
+.photo{
+  width:140px;
+  height:140px;
+  margin:0 auto 24px;
+  border-radius:50%;
+  overflow:hidden;
+  box-shadow:0 16px 40px rgba(0,0,0,.45);
+}
+.photo img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+/* TEXT */
+.line{
+  margin:16px 0;
+  font-size:1.15em;
+  line-height:1.85;
+  opacity:0;
+  animation:fade 1.2s ease forwards;
+}
+@keyframes fade{to{opacity:1}}
+
+/* BUTTONS */
+.buttons{
+  margin-top:36px;
+  position:relative;
+  height:110px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:22px;
+}
+
+button{
+  padding:14px 34px;
+  border-radius:999px;
+  border:none;
+  font-size:1em;
+  cursor:pointer;
+  transition:all .35s cubic-bezier(.4,0,.2,1);
+}
+
+#yes{
+  background:white;
+  color:#1e1e1e;
+  box-shadow:0 16px 40px rgba(255,255,255,.3);
+}
+
+#no{
+  background:transparent;
+  color:var(--soft);
+  border:1px solid rgba(255,255,255,.25);
+  position:absolute;
+}
+
+/* HEARTS */
+.heart{
+  position:absolute;
+  bottom:-20px;
+  font-size:16px;
+  opacity:.4;
+  animation:float 16s linear forwards;
+}
+@keyframes float{
+  to{transform:translateY(-150vh);opacity:0}
+}
+</style>
+</head>
+
+<body>
+
+<audio id="music" loop>
+  <source src="https://cdn.pixabay.com/audio/2022/10/26/audio_7d6c1d54c5.mp3" type="audio/mpeg">
+</audio>
+
+<div class="card" id="card">
+  <div class="photo">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtckwX1jCuXWiadl0y53B2VotFqvLlerpGdQ&s" alt="Amal">
+  </div>
+</div>
+
+<script>
+const card=document.getElementById("card");
+const music=document.getElementById("music");
+
+let yesScale=1,noScale=1;
+
+function wait(ms){return new Promise(r=>setTimeout(r,ms));}
+
+function type(text,speed=32){
+  return new Promise(res=>{
+    const d=document.createElement("div");
+    d.className="line";
+    card.appendChild(d);
+    let i=0;
+    const t=setInterval(()=>{
+      d.textContent+=text[i++];
+      if(i===text.length){clearInterval(t);res();}
+    },speed);
+  });
+}
+
+async function start(){
+  music.play();
+
+  await type("Amal.");
+  await wait(500);
+  await type("There’s something about you that feels rare.");
+  await wait(700);
+  await type(" you are incredibly pretty. i love ");
+  await wait(700);
+  await type(" the way you think. The way you care.");
+  await wait(700);
+  await type("The way your presence makes everything good.");
+  await wait(900);
+
+  await type("you are so attractive a zin dyali.");
+  await wait(500);
+  await type("and also unforgettable.");
+  await wait(800);
+  await type("what did i do to deserve you.");
+
+  showButtons();
+}
+
+function showButtons(){
+  const b=document.createElement("div");
+  b.className="buttons";
+  b.innerHTML=`
+    <button id="yes">Stay with me 🤍</button>
+    <button id="no">Leave</button>
+  `;
+  card.appendChild(b);
+
+  const yes=document.getElementById("yes");
+  const no=document.getElementById("no");
+
+  yes.onclick=final;
+  no.onmouseenter=escape;
+}
+
+function escape(){
+  const yes=document.getElementById("yes");
+  const no=document.getElementById("no");
+
+  yesScale+=0.12;
+  yes.style.transform=`scale(${yesScale})`;
+
+  noScale=Math.max(noScale-0.1,0.5);
+  no.style.transform=`scale(${noScale})`;
+  no.style.opacity=noScale;
+
+  no.style.left=(Math.random()*180-90)+"px";
+  no.style.top=(Math.random()*40-20)+"px";
+}
+
+async function final(){
+  card.innerHTML="";
+  await type("I say this and i am so lucky to have you a 7yatyyy.");
+  await wait(600);
+  await type("alll mineee.");
+  await wait(700);
+  await type("I feel lucky to have you in my life.");
+  await wait(700);
+  await type("And if I could promise you anything…");
+  await wait(700);
+  await type("It would be effort.");
+  await wait(600);
+  await type("Respect ");
+  await wait(600);
+  await type("And a heart that chooses you every day.");
+  await wait(900);
+  await type("Always, Amal. 3iniya n3tihomlik ");
+
+  for(let i=0;i<36;i++)heart();
+}
+
+function heart(){
+  const h=document.createElement("div");
+  h.className="heart";
+  h.textContent="🤍";
+  h.style.left=Math.random()*100+"vw";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),16000);
+}
+
+start();
+</script>
+
+</body>
+</html>
